@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.liu.besuperMybatis.mapper.playerMapper">
+	<resultMap type="com.liu.besuperMybatis.beans.Player" id="playerResultMap">
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="name" column="name" jdbcType="VARCHAR"/>
+		<result property="score" column="score" jdbcType="INTEGER"/>
+		<result property="username" column="username" jdbcType="VARCHAR"/>
+		<result property="password" column="password" jdbcType="VARCHAR"/>
+		<collection property="questions" javaType="ArrayList" column="id" ofType="Question" select="selectQuestionsOfPlayer"></collection>
+		<collection property="answers" javaType="ArrayList" column="id" ofType="Answer" select="selectAnswersOfPlayer"></collection>
+	</resultMap>
+	
+	<select id="selectPLayerById" parameterType="int" resultMap="playerResultMap">
+		select *  from `player` where id = #{id}
+	</select>
+	
+	<select id="selectPlayerByName" parameterType="String" resultType="Player">
+		select * from `player` where username = #{username}
+	</select>
+	<select id="getPLayerByUsernameAndPassword"  resultMap="playerResultMap">
+		select * from `player` where username = #{username} and password = #{password}
+	</select>
+	
+	<select id="selectQuestionsOfPlayer" parameterType="int" resultType="Question">
+		select * from `question` where  player_id =  #{id}
+	</select>
+	<select id="selectAnswersOfPlayer" parameterType="int" resultType="Answer">
+		select * from `answer` where  player_id =  #{id}
+	</select>
+	
+	<insert id ="insertPlayer" parameterType="Player" keyProperty="id" useGeneratedKeys="true">
+		insert into player (name,username,password) values (#{name},#{username},#{password})
+	</insert>
+	
+	<update id="updatePlayer" parameterType="Player">
+		update player set name = #{name},score = #{score},username = #{username},password = #{password} where id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="config.properties"></properties>
+	<typeAliases>
+		<typeAlias alias="Player" type="com.liu.besuperMybatis.beans.Player"/>
+		<typeAlias alias="Question" type="com.liu.besuperMybatis.beans.Question"/>
+		<typeAlias alias="Answer" type="com.liu.besuperMybatis.beans.Answer"/>
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="com/liu/besuperMybatis/mapper/playerMapper.xml"/>
+		<mapper resource="com/liu/besuperMybatis/mapper/answerMapper.xml"/>
+		<mapper resource="com/liu/besuperMybatis/mapper/questionMapper.xml"/>
+	</mappers>
+</configuration>

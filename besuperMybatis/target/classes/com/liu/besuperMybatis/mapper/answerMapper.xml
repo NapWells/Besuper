@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<!DOCTYPE mapper    
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.besuperMybatis.mapper.answerMapper">
+	<resultMap type="com.liu.besuperMybatis.beans.Answer" id="answerResultMap">
+		<result property="id" column="id" jdbcType="INTEGER"/>
+		<result property="value" column="value" jdbcType="VARCHAR"/>
+		<result property="best" column="best" jdbcType="VARCHAR"/>
+		<result property="playerId" column="player_id" jdbcType="INTEGER"/>
+		<result property="questionId" column="question_id" jdbcType="INTEGER"/>
+		<association  property="player" column="player_id" javaType="Player" select="selectPlayerById"/>
+		<association  property="question" column="question_id" javaType="Question" select="selectQuestionById"/>
+		
+	</resultMap>
+	<select id="selectAnswerById" parameterType="int" resultMap="answerResultMap">
+		select * from answer where id = #{id}
+	</select>
+	
+	<select id="selectPlayerById" parameterType="int" resultType="Player">
+		select * from player where id = #{playerId}
+	</select>
+	
+	<select id="selectQuestionById" parameterType="int" resultType="Question">
+		select * from question where id = #{questionId}
+	</select>
+	
+	<insert id="insertAnswer" parameterType="Answer" keyProperty="id" useGeneratedKeys="true">
+		insert into answer (value,player_id,question_id) values (#{value},#{playerId},#{questionId})
+	</insert>
+	
+	<update id="updateAnswer" parameterType="Answer">
+		update answer set value = #{value},best = #{best} where id = #{id}
+	</update>
+	
+</mapper>
