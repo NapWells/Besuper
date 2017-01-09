@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.takeout.dao.RiderMapper" >
+  <resultMap id="BaseResultMap" type="com.liu.takeout.entity.Rider" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR"/>
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+    <result column="pass_time" property="passTime" jdbcType="TIMESTAMP" />
+    <result column="id_card_number" property="idCardNumber" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="rider_status_id" property="riderStatusId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name,phone, apply_time, pass_time, id_card_number, pic_url, rider_status_id, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rider
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rider
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.liu.takeout.entity.Rider" >
+    insert into rider (id, name,phone, apply_time,
+      pass_time, id_card_number, pic_url, 
+      rider_status_id, is_delete)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},  #{phone,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP},
+      #{passTime,jdbcType=TIMESTAMP}, #{idCardNumber,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
+      #{riderStatusId,jdbcType=INTEGER}, #{isDelete,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liu.takeout.entity.Rider" >
+    insert into rider
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="applyTime != null" >
+        apply_time,
+      </if>
+      <if test="passTime != null" >
+        pass_time,
+      </if>
+      <if test="idCardNumber != null" >
+        id_card_number,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="riderStatusId != null" >
+        rider_status_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passTime != null" >
+        #{passTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idCardNumber != null" >
+        #{idCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="riderStatusId != null" >
+        #{riderStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liu.takeout.entity.Rider" >
+    update rider
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="applyTime != null" >
+        apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passTime != null" >
+        pass_time = #{passTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idCardNumber != null" >
+        id_card_number = #{idCardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="riderStatusId != null" >
+        rider_status_id = #{riderStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liu.takeout.entity.Rider" >
+    update rider
+    set phone = #{phone,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      pass_time = #{passTime,jdbcType=TIMESTAMP},
+      id_card_number = #{idCardNumber,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      rider_status_id = #{riderStatusId,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getRiderList" parameterType="com.liu.takeout.entity.Rider" resultMap="BaseResultMap">
+    SELECT * FROM rider WHERE rider_status_id !=3
+    and rider_status_id != 4 AND is_delete = 0
+    <if test="name!=null and !&quot;&quot;.equals(name.trim())">
+      and name LIKE '%' #{name} '%'
+    </if>
+  </select>
+
+  <update id="updateRiderStatus" parameterType="com.liu.takeout.entity.Rider">
+    update rider set rider_status_id = #{riderStatusId,jdbcType=INTEGER}
+    where id =  #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

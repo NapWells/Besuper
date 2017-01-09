@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+	<context:component-scan
+		base-package="com.liu.takeout.controller"></context:component-scan>
+
+	<bean id="managerLog" class="com.liu.takeout.aopLog.ManagerLog"/>
+	<!-- 自动生成代理  底层就是AnnotationAwareAspectJAutoProxyCreator -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		 		<property name="prefix" value="/back/"/>
+		 		<property name="suffix" value=".jsp"/>
+	</bean>
+
+	<!-- 默认的注解映射的支持 -->
+	<!--<mvc:annotation-driven />-->
+
+	<!-- 对静态资源文件的访问  -->
+	<!--<mvc:default-servlet-handler/>-->
+
+	<!--在应用启动时，不让spring扫描到@Service注解的类-->
+	<context:component-scan base-package="com.liu.takeout.service.impl" >
+		<context:exclude-filter type="annotation"  expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	<context:component-scan base-package="com.liu.takeout.service.impl" ></context:component-scan>
+</beans>

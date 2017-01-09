@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.takeout.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.liu.takeout.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deal_time" property="dealTime" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="rider_id" property="riderId" jdbcType="INTEGER" />
+    <result column="order_status_id" property="orderStatusId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, deal_time, user_id, rider_id, order_status_id, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.liu.takeout.entity.Order" >
+    insert into order (id, create_time, deal_time, 
+      user_id, rider_id, order_status_id, 
+      is_delete)
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{dealTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=INTEGER}, #{riderId,jdbcType=INTEGER}, #{orderStatusId,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.liu.takeout.entity.Order" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="dealTime != null" >
+        deal_time,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="riderId != null" >
+        rider_id,
+      </if>
+      <if test="orderStatusId != null" >
+        order_status_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealTime != null" >
+        #{dealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="riderId != null" >
+        #{riderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatusId != null" >
+        #{orderStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liu.takeout.entity.Order" >
+    update order
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealTime != null" >
+        deal_time = #{dealTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="riderId != null" >
+        rider_id = #{riderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatusId != null" >
+        order_status_id = #{orderStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liu.takeout.entity.Order" >
+    update order
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      deal_time = #{dealTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=INTEGER},
+      rider_id = #{riderId,jdbcType=INTEGER},
+      order_status_id = #{orderStatusId,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="cancelOrderById" parameterType="java.lang.Long">
+      UPDATE `order` SET  order_status_id = 5 where id = #{id,jdbcType=BIGINT};
+  </update>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.takeout.dao.OrderManagerMapper" >
+    <resultMap id="BaseResultMap" type="com.liu.takeout.entity.OrderManager">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="merchantName" property="merchantName" jdbcType="VARCHAR"/>
+        <result column="merchantAddress" property="merchantAddress" jdbcType="VARCHAR"/>
+        <result column="merchantPhone" property="merchantPhone" jdbcType="VARCHAR"/>
+        <result column="receipterName" property="receipterName" jdbcType="VARCHAR"/>
+        <result column="receipterAddress" property="receipterAddress" jdbcType="VARCHAR"/>
+        <result column="receipterPhone" property="receipterPhone" jdbcType="VARCHAR"/>
+        <result column="riderName" property="riderName" jdbcType="VARCHAR"/>
+        <result column="riderPhone" property="riderPhone" jdbcType="VARCHAR"/>
+        <result column="statusName" property="statusName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectOrderList" parameterType="com.liu.takeout.entity.OrderManager" resultMap="BaseResultMap">
+        SELECT
+        distinct `order`.id id,
+        merchant.name merchantName,
+        merchant.address merchantAddress,
+        merchant.phone merchantPhone,
+        `user`.username receipterName,
+        `user`.address receipterAddress,
+        `user`.phone receipterPhone,
+        rider.name riderName,
+        rider.phone riderPhone,
+        order_status.name statusName
+        FROM
+        product,
+        dish,
+        merchant,
+        `order`,
+        rider,
+        order_status,
+        `user`
+        WHERE
+        product.dish_id = dish.id
+        AND dish.merchant_id = merchant.id
+        AND product.order_id = `order`.id
+        AND `order`.user_id = `user`.id
+        AND `order`.rider_id = rider.id
+        AND order_status.id = `order`.order_status_id
+        AND order_status.id != 3
+        AND order_status.id != 4
+        AND order_status.id != 5
+        <if test="id!= null">
+            AND `order`.id = #{id}
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liu.takeout.dao.MerchantMapper">
+    <resultMap id="BaseResultMap" type="com.liu.takeout.entity.Merchant">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP"/>
+        <result column="pass_time" property="passTime" jdbcType="TIMESTAMP"/>
+        <result column="deliver_price" property="deliverPrice" jdbcType="DOUBLE"/>
+        <result column="min_price" property="minPrice" jdbcType="DOUBLE"/>
+        <result column="box_price" property="boxPrice" jdbcType="DOUBLE"/>
+        <result column="picture_url" property="pictureUrl" jdbcType="VARCHAR"/>
+        <result column="merchant_type_id" property="merchantTypeId" jdbcType="INTEGER"/>
+        <result column="merchant_status_id" property="merchantStatusId" jdbcType="INTEGER"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, phone, address, apply_time, pass_time, deliver_price, min_price, box_price, 
+    picture_url, merchant_type_id, merchant_status_id, is_delete
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from merchant
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from merchant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.liu.takeout.entity.Merchant">
+    insert into merchant (id, name, phone, 
+      address, apply_time, pass_time, 
+      deliver_price, min_price, box_price, 
+      picture_url, merchant_type_id, merchant_status_id, 
+      is_delete)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{passTime,jdbcType=TIMESTAMP}, 
+      #{deliverPrice,jdbcType=DOUBLE}, #{minPrice,jdbcType=DOUBLE}, #{boxPrice,jdbcType=DOUBLE}, 
+      #{pictureUrl,jdbcType=VARCHAR}, #{merchantTypeId,jdbcType=INTEGER}, #{merchantStatusId,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=BIT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.liu.takeout.entity.Merchant">
+        insert into merchant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="applyTime != null">
+                apply_time,
+            </if>
+            <if test="passTime != null">
+                pass_time,
+            </if>
+            <if test="deliverPrice != null">
+                deliver_price,
+            </if>
+            <if test="minPrice != null">
+                min_price,
+            </if>
+            <if test="boxPrice != null">
+                box_price,
+            </if>
+            <if test="pictureUrl != null">
+                picture_url,
+            </if>
+            <if test="merchantTypeId != null">
+                merchant_type_id,
+            </if>
+            <if test="merchantStatusId != null">
+                merchant_status_id,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="applyTime != null">
+                #{applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="passTime != null">
+                #{passTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverPrice != null">
+                #{deliverPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="minPrice != null">
+                #{minPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="boxPrice != null">
+                #{boxPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="pictureUrl != null">
+                #{pictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantTypeId != null">
+                #{merchantTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="merchantStatusId != null">
+                #{merchantStatusId,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.liu.takeout.entity.Merchant">
+        update merchant
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="applyTime != null">
+                apply_time = #{applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="passTime != null">
+                pass_time = #{passTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="deliverPrice != null">
+                deliver_price = #{deliverPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="minPrice != null">
+                min_price = #{minPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="boxPrice != null">
+                box_price = #{boxPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="pictureUrl != null">
+                picture_url = #{pictureUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="merchantTypeId != null">
+                merchant_type_id = #{merchantTypeId,jdbcType=INTEGER},
+            </if>
+            <if test="merchantStatusId != null">
+                merchant_status_id = #{merchantStatusId,jdbcType=INTEGER},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.liu.takeout.entity.Merchant">
+    update merchant
+    set name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      apply_time = #{applyTime,jdbcType=TIMESTAMP},
+      pass_time = #{passTime,jdbcType=TIMESTAMP},
+      deliver_price = #{deliverPrice,jdbcType=DOUBLE},
+      min_price = #{minPrice,jdbcType=DOUBLE},
+      box_price = #{boxPrice,jdbcType=DOUBLE},
+      picture_url = #{pictureUrl,jdbcType=VARCHAR},
+      merchant_type_id = #{merchantTypeId,jdbcType=INTEGER},
+      merchant_status_id = #{merchantStatusId,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectMerchantList" parameterType="com.liu.takeout.entity.Merchant" resultMap="BaseResultMap">
+        SELECT * FROM merchant WHERE merchant_status_id !=3
+        and merchant_status_id != 4 AND is_delete = 0
+        <if test="name!=null and !&quot;&quot;.equals(name.trim())">
+            and name LIKE '%' #{name} '%'
+        </if>
+    </select>
+
+    <update id="updateMerchantStatus" parameterType="com.liu.takeout.entity.Merchant">
+        update merchant set merchant_status_id = #{merchantStatusId,jdbcType=INTEGER}
+        where id =  #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
